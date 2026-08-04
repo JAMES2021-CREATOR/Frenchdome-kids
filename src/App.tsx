@@ -1,3 +1,4 @@
+import Contact from "./Component/Contact";
 import './App.css'
 import About from './Component/About'
 import Courses from './Component/Courses'
@@ -8,6 +9,7 @@ import Practice from './Component/Practice'
 import Testimonials from './Component/Testimonials'
 import Translator from './Component/Translator'
 import Vocabulary from './Component/Vocabulary'
+import Login from "./Component/Login";
 
 function App() {
 
@@ -22,6 +24,9 @@ function App() {
     <Practice/>
     <Testimonials />
     <FAQ/>
+    <Contact/>  
+    <Login/>
+    
     </>
   )
 }
