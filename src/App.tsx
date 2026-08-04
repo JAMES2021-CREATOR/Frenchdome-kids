@@ -1,3 +1,4 @@
+
 import Contact from "./Component/Contact";
 import './App.css'
 import About from './Component/About'
@@ -26,6 +27,7 @@ function App() {
     <FAQ/>
     <Contact/>  
     <Login/>
+   
     
     </>
   )

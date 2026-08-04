@@ -1,13 +1,60 @@
-import { ArrowRightLeft, Languages, Volume2, Sparkles } from "lucide-react";
+import {
+  ArrowRightLeft,
+  Languages,
+  Volume2,
+  Sparkles,
+} from "lucide-react";
+import { useState } from "react";
+import { translateToFrench } from "../lib/translator";
 
 const Translator = () => {
+  const [english, setEnglish] = useState("");
+  const [french, setFrench] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleTranslate = async () => {
+    if (!english.trim()) {
+      alert("Please enter some English text.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const result = await translateToFrench(english);
+
+      setFrench(result);
+    } catch (error) {
+      console.error(error);
+      alert("Translation failed.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSwap = () => {
+    const temp = english;
+    setEnglish(french);
+    setFrench(temp);
+  };
+
+  const handleExplain = () => {
+    if (!french) {
+      alert("Translate something first.");
+      return;
+    }
+
+    alert(
+      "AI Explanation feature will be connected after integrating OpenAI."
+    );
+  };
+
   return (
     <section
       id="translator"
       className="py-24 bg-gradient-to-b from-blue-50 to-white"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-
         {/* Heading */}
 
         <div className="text-center max-w-3xl mx-auto">
@@ -29,8 +76,34 @@ const Translator = () => {
         {/* Translator Card */}
 
         <div className="mt-16 rounded-3xl bg-white p-8 shadow-xl">
-
           <div className="grid gap-8 lg:grid-cols-2">
+            {/* English */}
+
+            <div>
+              <div className="mb-3 flex items-center justify-between">
+                <h3 className="font-bold text-slate-900">
+                  🇬🇧 English
+                </h3>
+
+                <button
+                  type="button"
+                  className="rounded-lg p-2 hover:bg-blue-100"
+                >
+                  <Volume2
+                    className="text-blue-600"
+                    size={20}
+                  />
+                </button>
+              </div>
+
+              <textarea
+                rows={8}
+                value={english}
+                onChange={(e) => setEnglish(e.target.value)}
+                placeholder="Type English text..."
+                className="w-full rounded-2xl border p-5 outline-none transition focus:border-blue-600"
+              />
+            </div>
 
             {/* French */}
 
@@ -40,66 +113,61 @@ const Translator = () => {
                   🇫🇷 French
                 </h3>
 
-                <button className="rounded-lg p-2 transition hover:bg-blue-100">
-                  <Volume2 className="text-blue-600" size={20} />
+                <button
+                  type="button"
+                  className="rounded-lg p-2 hover:bg-blue-100"
+                >
+                  <Volume2
+                    className="text-blue-600"
+                    size={20}
+                  />
                 </button>
               </div>
 
               <textarea
                 rows={8}
-                placeholder="Type French text..."
-                className="w-full rounded-2xl border p-5 outline-none transition focus:border-blue-600"
-              ></textarea>
+                value={french}
+                readOnly
+                placeholder="French translation appears here..."
+                className="w-full rounded-2xl border p-5 bg-slate-50 outline-none"
+              />
             </div>
-
-            {/* English */}
-
-            <div>
-              <div className="mb-3 flex items-center justify-between">
-                <h3 className="font-bold text-slate-900">
-                  🇬🇧 English
-                </h3>
-
-                <button className="rounded-lg p-2 transition hover:bg-blue-100">
-                  <Volume2 className="text-blue-600" size={20} />
-                </button>
-              </div>
-
-              <textarea
-                rows={8}
-                placeholder="Translation appears here..."
-                className="w-full rounded-2xl border p-5 outline-none transition focus:border-blue-600"
-              ></textarea>
-            </div>
-
           </div>
 
           {/* Action Buttons */}
 
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-
-            <button className="flex items-center gap-2 rounded-xl bg-blue-600 px-8 py-4 font-semibold text-white transition hover:bg-blue-700">
+            <button
+              onClick={handleTranslate}
+              disabled={loading}
+              className="flex items-center gap-2 rounded-xl bg-blue-600 px-8 py-4 font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
+            >
               <Languages size={20} />
-              Translate
+
+              {loading ? "Translating..." : "Translate"}
             </button>
 
-            <button className="flex items-center gap-2 rounded-xl border border-blue-600 px-8 py-4 font-semibold text-blue-600 transition hover:bg-blue-50">
+            <button
+              onClick={handleSwap}
+              className="flex items-center gap-2 rounded-xl border border-blue-600 px-8 py-4 font-semibold text-blue-600 transition hover:bg-blue-50"
+            >
               <ArrowRightLeft size={20} />
               Swap Languages
             </button>
 
-            <button className="flex items-center gap-2 rounded-xl border border-blue-600 px-8 py-4 font-semibold text-blue-600 transition hover:bg-blue-50">
+            <button
+              onClick={handleExplain}
+              className="flex items-center gap-2 rounded-xl border border-blue-600 px-8 py-4 font-semibold text-blue-600 transition hover:bg-blue-50"
+            >
               <Sparkles size={20} />
               AI Explain
             </button>
-
           </div>
         </div>
 
         {/* Features */}
 
         <div className="mt-20 grid gap-8 md:grid-cols-3">
-
           <div className="rounded-2xl bg-white p-8 text-center shadow-md">
             <Languages
               className="mx-auto text-blue-600"
@@ -111,7 +179,7 @@ const Translator = () => {
             </h3>
 
             <p className="mt-3 text-slate-600">
-              Translate French to English and English to French in seconds.
+              Translate English to French instantly using AI.
             </p>
           </div>
 
@@ -126,7 +194,7 @@ const Translator = () => {
             </h3>
 
             <p className="mt-3 text-slate-600">
-              Listen to correct pronunciation with one click.
+              Hear native pronunciation with one click.
             </p>
           </div>
 
@@ -141,23 +209,21 @@ const Translator = () => {
             </h3>
 
             <p className="mt-3 text-slate-600">
-              Get grammar explanations and usage examples powered by AI.
+              Understand grammar, sentence structure and usage.
             </p>
           </div>
-
         </div>
 
         {/* CTA */}
 
         <div className="mt-20 rounded-3xl bg-blue-600 px-8 py-12 text-center text-white">
-
           <h3 className="text-3xl font-bold">
             Ready to Practice Your French?
           </h3>
 
           <p className="mx-auto mt-4 max-w-2xl text-blue-100">
-            Use AI translation together with vocabulary, grammar, and quizzes
-            to become fluent faster.
+            Use AI translation together with vocabulary, grammar,
+            and quizzes to become fluent faster.
           </p>
 
           <a
@@ -166,9 +232,7 @@ const Translator = () => {
           >
             Go to Practice
           </a>
-
         </div>
-
       </div>
     </section>
   );
