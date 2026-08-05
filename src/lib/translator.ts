@@ -1,12 +1,13 @@
-import { openai } from "./openai";
+export async function translateToFrench(text: string): Promise<string> {
+  const words: Record<string, string> = {
+    hello: "bonjour",
+    thanks: "merci",
+    yes: "oui",
+    no: "non",
+    goodbye: "au revoir",
+  };
 
-export async function translateToFrench(text: string) {
-  const response = await openai.responses.create({
-    model: "gpt-5",
-    input: `Translate this English text into French:
+  const key = text.trim().toLowerCase();
 
-${text}`,
-  });
-
-  return response.output_text;
+  return words[key] || `Translation coming soon: ${text}`;
 }
