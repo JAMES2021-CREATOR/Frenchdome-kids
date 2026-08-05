@@ -1,11 +1,5 @@
 import { Mail, Lock, ArrowRight } from "lucide-react";
 import { FaGoogle, FaGithub } from "react-icons/fa";
-import {
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/clerk-react";
 
 const Login = () => {
   return (
@@ -72,21 +66,13 @@ const Login = () => {
             </a>
           </div>
 
-         <SignedOut>
-  <SignInButton mode="modal">
-    <button
-      type="button"
-      className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-4 font-semibold text-white transition hover:bg-blue-700"
-    >
-      Login
-      <ArrowRight size={18} />
-    </button>
-  </SignInButton>
-</SignedOut>
-
-<SignedIn>
-  <UserButton />
-</SignedIn>
+          <button
+            type="button"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 py-4 font-semibold text-white transition hover:bg-blue-700"
+          >
+            Login
+            <ArrowRight size={18} />
+          </button>
         </form>
 
         {/* Divider */}
@@ -98,7 +84,6 @@ const Login = () => {
         </div>
 
         {/* Social Login */}
-       
 
         <div className="space-y-4">
           <button className="flex w-full items-center justify-center gap-3 rounded-xl border py-4 transition hover:bg-slate-50">
